@@ -1,10 +1,16 @@
 import './App.css';
+import React, { useEffect, useState } from 'react';
 
 function App() {
 
-  let connetionWasEstablished = false;
-  let serverMessage = null;
+  const [connetionWasEstablished, setConnectionWasEstablished] = useState(false);
 
+  useEffect(() => {
+    fetch('http://localhost:5555')
+      .then(() => setConnectionWasEstablished(true))
+      .catch(() => setConnectionWasEstablished(false));
+  }, []);
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -12,7 +18,6 @@ function App() {
         <div className={connetionWasEstablished ? "connected" : "disconnected"}>
           { connetionWasEstablished ? "was established :)" : "failed :("}
         </div>
-        {connetionWasEstablished && <p>Server message: {serverMessage}</p>}
       </header>
     </div>
   );
